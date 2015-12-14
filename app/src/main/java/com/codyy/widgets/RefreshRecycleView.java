@@ -16,28 +16,34 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
     /**
      * 刷新完成
      */
-    private final static int ON_REFRESH_COMPLETE = 0x001;
+    public final static int ON_REFRESH_COMPLETE = 0x001;
     /**
      * 没有数据
      */
-    private final static int STATE_NODATA = 0x002;
+    public final static int STATE_NODATA = 0x002;
     /**
      * 正在加载中
      */
-    private final static int STATE_LOADING = 0x003;
+    public final static int STATE_LOADING = 0x003;
     /**
      * 没有更多数据
      */
-    private final static int STATE_NO_MORE = 0x004;
+    public final static int STATE_NO_MORE = 0x004;
     /**
      *
      */
-    private final static int STATIC_IS_REFRESHING = 0x005;
+    public final static int STATIC_IS_REFRESHING = 0x005;
+    /**
+     * 上滑加载更多
+     */
+    public final static int STATE_UP_LOADEMORE = 0x006;
+
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private OnStateChangeLstener mOnStateChangeLstener;
     private Handler mHandler;
     private Context mContext;
+    private RefreshBaseAdapter mRefreshBaseAdapter;
 
     public RefreshRecycleView(Context context) {
         super(context);
@@ -66,6 +72,10 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
                     Toast.makeText(mContext, "bottom", Toast.LENGTH_SHORT).show();
                     if (mOnStateChangeLstener != null) {
                         mOnStateChangeLstener.onBottom();
+                        if (mRefreshBaseAdapter != null && mRefreshBaseAdapter.getmDatas() != null) {
+                            mRefreshBaseAdapter.setmState(RefreshRecycleView.STATE_LOADING);
+                            mRefreshBaseAdapter.notifyItemChanged(mRefreshBaseAdapter.getmDatas().size());
+                        }
                     }
                 }
             }
@@ -96,7 +106,8 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
         }
     }
 
-    public void setAdapter(RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
+    public void setAdapter(RefreshBaseAdapter adapter) {
+        mRefreshBaseAdapter = adapter;
         if (mRecyclerView != null) {
             mRecyclerView.setAdapter(adapter);
         }

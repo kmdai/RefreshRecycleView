@@ -2,6 +2,8 @@ package com.codyy.widgets;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,15 +16,26 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RefreshRecycleView.OnStateChangeLstener {
+public class MainActivity extends AppCompatActivity implements RefreshRecycleView.OnStateChangeLstener, Handler.Callback {
     private RefreshRecycleView mRefreshRecycleView;
+    private List<RefreshEntity> mDatas;
+    Handler handler;
+    BaseAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        handler = new Handler(this);
+        mDatas = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            RefreshEntity refreshEntity = new RefreshEntity();
+            mDatas.add(refreshEntity);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mRefreshRecycleView = (RefreshRecycleView) findViewById(R.id.refreshview);
@@ -38,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
                         .setAction("Action", null).show();
             }
         });
+        adapter = new BaseAdapter(this, mDatas);
         mRefreshRecycleView.setAdapter(adapter);
     }
 
@@ -63,9 +77,29 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
         return super.onOptionsItemSelected(item);
     }
 
-    RecyclerView.Adapter<RecyclerView.ViewHolder> adapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    @Override
+    public boolean handleMessage(Message msg) {
+        for (int i = 0; i < 20; i++) {
+            RefreshEntity refreshEntity = new RefreshEntity();
+            mDatas.add(refreshEntity);
+        }
+        adapter.notifyDataSetChanged();
+        mRefreshRecycleView.setRefreshing(false);
+        return false;
+    }
+
+    class BaseAdapter extends RefreshBaseAdapter {
+
+        public BaseAdapter(Context mContext) {
+            super(mContext);
+        }
+
+        public BaseAdapter(Context mContext, List<RefreshEntity> mDatas) {
+            super(mContext, mDatas);
+        }
+
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder getHolderView(ViewGroup parent, int viewType) {
             TextView textView = new TextView(MainActivity.this);
             textView.setText("hahahahahahah");
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
@@ -74,36 +108,11 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 20;
-        }
-    };
-
-    class adapter extends RefreshAdapter{
-
-        public adapter(Context mContext) {
-            super(mContext);
-        }
-
-        public adapter(Context mContext, List<RefreshEntity> mDatas) {
-            super(mContext, mDatas);
-        }
-
-        @Override
-        RecyclerView.ViewHolder getHolderView(ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
         void onBindView(RecyclerView.ViewHolder holder, int position, RefreshEntity entity) {
 
         }
     }
+
     @Override
     public void onRefresh() {
 
@@ -111,6 +120,6 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
 
     @Override
     public void onBottom() {
-
+        handler.sendEmptyMessageDelayed(0x001, 2000);
     }
 }

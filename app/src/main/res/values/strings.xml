@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">RecycleView</string>
     <string name="action_settings">Settings</string>
+
+    <string name="refresh_state_no_more">没有更多加载！</string>
+    <string name="refresh_state_loading">加载中...</string>
+    <string name="refresh_state_up_loadmore">上滑加载更多。</string>
 </resources>
