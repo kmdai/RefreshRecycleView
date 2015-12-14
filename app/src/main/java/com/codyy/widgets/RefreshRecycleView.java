@@ -12,7 +12,7 @@ import android.widget.Toast;
 /**
  * Created by kmdai on 15-12-7.
  */
-public  class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefreshLayout.OnRefreshListener, Handler.Callback {
+public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefreshLayout.OnRefreshListener, Handler.Callback {
     /**
      * 刷新完成
      */
@@ -26,7 +26,7 @@ public  class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefr
      */
     private final static int STATE_LOADING = 0x003;
     /**
-     * 没有更多
+     * 没有更多数据
      */
     private final static int STATE_NO_MORE = 0x004;
     /**
