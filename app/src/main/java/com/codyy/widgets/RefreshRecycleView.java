@@ -72,10 +72,7 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
                     Toast.makeText(mContext, "bottom", Toast.LENGTH_SHORT).show();
                     if (mOnStateChangeLstener != null) {
                         mOnStateChangeLstener.onBottom();
-                        if (mRefreshBaseAdapter != null && mRefreshBaseAdapter.getmDatas() != null) {
-                            mRefreshBaseAdapter.setmState(RefreshRecycleView.STATE_LOADING);
-                            mRefreshBaseAdapter.notifyItemChanged(mRefreshBaseAdapter.getmDatas().size());
-                        }
+                        setAdapterLastState(RefreshRecycleView.STATE_UP_LOADEMORE);
                     }
                 }
             }
@@ -147,13 +144,17 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
         void onBottom();
     }
 
+    /**
+     * 设置最后一个view的状态
+     */
+    public void setAdapterLastState(int state) {
+        if (mRefreshBaseAdapter != null && mRefreshBaseAdapter.getmDatas() != null) {
+            mRefreshBaseAdapter.setState(state);
+            mRefreshBaseAdapter.notifyItemChanged(mRefreshBaseAdapter.getmDatas().size());
+        }
+    }
+
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
-
-    /**
-     * 返回adapter
-     *
-     * @return
-     */
 }

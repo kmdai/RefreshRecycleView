@@ -33,7 +33,7 @@ public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    final public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == RefreshEntity.REFRESH_TYPE_BASE) {
             return new LastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_viewholder_last, parent, false));
         }
@@ -41,9 +41,8 @@ public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    final public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == mDatas.size()) {
-            System.out.println("LastViewHolder-----onBindViewHolder");
             LastViewHolder lastViewHolder = (LastViewHolder) holder;
             lastViewHolder.setState(mState);
         } else {
@@ -77,11 +76,11 @@ public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerVi
         return super.getItemViewType(position);
     }
 
-    public int getmState() {
+    public int getState() {
         return mState;
     }
 
-    public void setmState(int mState) {
+    public void setState(int mState) {
         this.mState = mState;
     }
 
