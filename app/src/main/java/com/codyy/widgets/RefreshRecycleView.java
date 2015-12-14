@@ -145,5 +145,4 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
      *
      * @return
      */
-//    abstract RecyclerView.Adapter<RecyclerView.ViewHolder> getAdapter();
 }

@@ -1,5 +1,6 @@
 package com.codyy.widgets;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RefreshRecycleView.OnStateChangeLstener {
     private RefreshRecycleView mRefreshRecycleView;
@@ -81,6 +84,26 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
         }
     };
 
+    class adapter extends RefreshAdapter{
+
+        public adapter(Context mContext) {
+            super(mContext);
+        }
+
+        public adapter(Context mContext, List<RefreshEntity> mDatas) {
+            super(mContext, mDatas);
+        }
+
+        @Override
+        RecyclerView.ViewHolder getHolderView(ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        void onBindView(RecyclerView.ViewHolder holder, int position, RefreshEntity entity) {
+
+        }
+    }
     @Override
     public void onRefresh() {
 

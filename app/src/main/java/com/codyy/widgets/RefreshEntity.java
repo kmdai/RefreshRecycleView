@@ -6,6 +6,10 @@ package com.codyy.widgets;
  */
 public class RefreshEntity {
     /**
+     * 定义view holder的view类型
+     */
+    public final static int REFRESH_TYPE_BASE = 0x001;
+    /**
      *
      */
     private String mID;
