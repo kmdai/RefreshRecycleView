@@ -14,11 +14,11 @@ import java.util.List;
 /**
  * Created by kmdai on 15-12-11.
  */
-public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class RefreshBaseAdapter<T extends RefreshEntity> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
      * 数据
      */
-    private List<RefreshEntity> mDatas;
+    private List<T> mDatas;
 
     private int mState = RefreshRecycleView.STATE_UP_LOADEMORE;
     private Context mContext;
@@ -27,14 +27,14 @@ public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerVi
         this.mContext = mContext;
     }
 
-    public RefreshBaseAdapter(Context mContext, List<RefreshEntity> mDatas) {
+    public RefreshBaseAdapter(Context mContext, List<T> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
     }
 
     @Override
     final public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == RefreshEntity.REFRESH_TYPE_BASE) {
+        if (viewType == RefreshEntity.REFRESH_TYPE_LASTVIEW) {
             return new LastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_viewholder_last, parent, false));
         }
         return getHolderView(parent, viewType);
@@ -52,11 +52,11 @@ public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public List<RefreshEntity> getmDatas() {
+    public List<T> getmDatas() {
         return mDatas;
     }
 
-    public void setmDatas(List<RefreshEntity> mDatas) {
+    public void setmDatas(List<T> mDatas) {
         this.mDatas = mDatas;
     }
 
@@ -68,10 +68,17 @@ public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerVi
         return 0;
     }
 
+    public T getItem(int position) {
+        if (mDatas != null) {
+            return mDatas.get(position);
+        }
+        return null;
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (mDatas != null) {
-            return position == mDatas.size() ? RefreshEntity.REFRESH_TYPE_BASE : mDatas.get(position).getmHolderType();
+            return position == mDatas.size() ? RefreshEntity.REFRESH_TYPE_LASTVIEW : mDatas.get(position).getmHolderType();
         }
         return super.getItemViewType(position);
     }
@@ -86,7 +93,7 @@ public abstract class RefreshBaseAdapter extends RecyclerView.Adapter<RecyclerVi
 
     abstract RecyclerView.ViewHolder getHolderView(ViewGroup parent, int viewType);
 
-    abstract void onBindView(RecyclerView.ViewHolder holder, int position, RefreshEntity entity);
+    abstract void onBindView(RecyclerView.ViewHolder holder, int position, T entity);
 
     /**
      * 最后显示的viewholder

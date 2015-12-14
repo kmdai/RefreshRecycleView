@@ -6,9 +6,9 @@ package com.codyy.widgets;
  */
 public class RefreshEntity {
     /**
-     * 定义view holder的view类型
+     * 最后一个view的类型，集成的不要与此重复，避免错误
      */
-    public final static int REFRESH_TYPE_BASE = 0x001;
+    public final static int REFRESH_TYPE_LASTVIEW = 0xa01;
     /**
      *
      */

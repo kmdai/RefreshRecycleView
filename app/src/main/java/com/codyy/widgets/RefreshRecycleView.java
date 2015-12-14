@@ -3,6 +3,7 @@ package com.codyy.widgets;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,7 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
     private OnStateChangeLstener mOnStateChangeLstener;
     private Handler mHandler;
     private Context mContext;
-    private RefreshBaseAdapter mRefreshBaseAdapter;
+    private RefreshBaseAdapter<RefreshEntity> mRefreshBaseAdapter;
 
     public RefreshRecycleView(Context context) {
         super(context);
@@ -72,7 +73,7 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
                     Toast.makeText(mContext, "bottom", Toast.LENGTH_SHORT).show();
                     if (mOnStateChangeLstener != null) {
                         mOnStateChangeLstener.onBottom();
-                        setAdapterLastState(RefreshRecycleView.STATE_UP_LOADEMORE);
+                        setAdapterLastState(RefreshRecycleView.STATE_LOADING);
                     }
                 }
             }

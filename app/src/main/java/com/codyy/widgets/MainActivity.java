@@ -79,12 +79,16 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
 
     @Override
     public boolean handleMessage(Message msg) {
-        for (int i = 0; i < 20; i++) {
-            RefreshEntity refreshEntity = new RefreshEntity();
-            mDatas.add(refreshEntity);
+        if (mDatas.size() >= 40) {
+            mRefreshRecycleView.setAdapterLastState(RefreshRecycleView.STATE_NO_MORE);
+        } else {
+            for (int i = 0; i < 20; i++) {
+                RefreshEntity refreshEntity = new RefreshEntity();
+                mDatas.add(refreshEntity);
+            }
+            adapter.notifyDataSetChanged();
+            mRefreshRecycleView.setRefreshing(false);
         }
-        adapter.notifyDataSetChanged();
-        mRefreshRecycleView.setRefreshing(false);
         return false;
     }
 
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
         void onBindView(RecyclerView.ViewHolder holder, int position, RefreshEntity entity) {
 
         }
+
+
     }
 
     @Override
