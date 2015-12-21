@@ -142,6 +142,9 @@ public class RefreshRecycleView extends SwipeRefreshLayout implements SwipeRefre
          */
         void onRefresh();
 
+        /**
+         * 滑到底部
+         */
         void onBottom();
     }
 

@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +48,13 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(mRefreshRecycleView, "Replace with your own action", Snackbar.LENGTH_SHORT)
+                        .setAction("删除", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "删除", Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
             }
         });
         adapter = new BaseAdapter(this, mDatas);
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements RefreshRecycleVie
         return false;
     }
 
-    class BaseAdapter extends RefreshBaseAdapter {
+    class BaseAdapter extends RefreshBaseAdapter<RefreshEntity> {
 
         public BaseAdapter(Context mContext) {
             super(mContext);
